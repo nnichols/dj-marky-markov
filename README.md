@@ -1,36 +1,15 @@
-# dj-marky-markov
-
-FIXME: description
+# dj-marky-markov - A simple Markov Chain for text generation in Clojure
 
 ## Installation
 
-Download from http://example.com/FIXME.
-
 ## Usage
 
-FIXME: explanation
+## Documentation Site
 
-    $ java -jar dj-marky-markov-0.1.0-standalone.jar [args]
+## Automated Build And Repository Information
 
-## Options
+## Licensing
 
-FIXME: listing of options this app accepts.
+Copyright © 2019 [Nick Nichols](https://nnichols.github.io/)
 
-## Examples
-
-...
-
-### Bugs
-
-...
-
-### Any Other Sections
-### That You Think
-### Might be Useful
-
-## License
-
-Copyright © 2019 FIXME
-
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+Distributed under the [Eclipse Public License Version 1.0](https://www.eclipse.org/legal/epl-v10.html)
