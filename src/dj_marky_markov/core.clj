@@ -7,7 +7,7 @@
 
 ;;HACK - This is fuzzy detection for string terminators. Needs to be more robust
 (def punctuation-regex
-  (re-pattern "[\\.\\?\\!\\-]"))
+  (re-pattern "[\\.\\?\\!]"))
 
 (defn string-to-sliding-window
   [string window-length]
@@ -41,9 +41,9 @@
     (if (sentence-ended? sentence)
       ;; We want to trim off anything that trails after punctuation
       ;; e.g. "I went to the store. Hello" -> "I went to the store."
-      (str (first (cs/split sentence punctuation-regex)) (re-find punctuation-regex sentence))
-      ;; Need better handling for :lookup-failed
-      (let [added-text (rand-nth (get dictionary look-up :lookup-failed))]
+      (str (first (cs/split sentence punctuation-regex))
+           (re-find punctuation-regex sentence))
+      (let [added-text (rand-nth (get dictionary look-up ["."]))]
         (recur (str sentence " " added-text)
                ;;HACK - Needs to be expanded to take (window-length - 1) words from starting text
                ;;       and append that to the added-text
@@ -68,7 +68,7 @@
         text-tuples (map single-window-to-tuple (string-to-sliding-window (slurp path) window-length))
         split-text-tuples (group-by starts-sentence? text-tuples)
         sentence-starters (build-markov-dictionary (get split-text-tuples true))
-        sentence-bodies (build-markov-dictionary (get split-text-tuples false))
+        sentence-bodies (build-markov-dictionary text-tuples)
         _ (println (markov-sentence sentence-starters sentence-bodies))
         _ (println (markov-sentence sentence-starters sentence-bodies))
         _ (println (markov-sentence sentence-starters sentence-bodies))
