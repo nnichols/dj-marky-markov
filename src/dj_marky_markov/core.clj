@@ -9,6 +9,10 @@
 (def punctuation-regex
   (re-pattern "[\\.\\?\\!]"))
 
+(defn concat-with-space
+  [s1 s2]
+  (str s1 " " s2))
+
 (defn string-to-sliding-window
   [string window-length]
   (partition window-length 1 (cs/split string #"\s+")))
@@ -16,7 +20,7 @@
 ;; A binary str that adds a center spce is common, break it our
 (defn single-window-to-tuple
   [window]
-  (cons (reduce #(str %1 " " %2) (butlast window)) (list (last window))))
+  (cons (reduce #(concat-with-space %1 %2) (butlast window)) (list (last window))))
 
 (defn add-entry
   [dictionary entry]
@@ -44,20 +48,20 @@
       (str (first (cs/split sentence punctuation-regex))
            (re-find punctuation-regex sentence))
       (let [added-text (rand-nth (get dictionary look-up ["."]))]
-        (recur (str sentence " " added-text)
+        (recur (concat-with-space sentence added-text)
                ;;HACK - Needs to be expanded to take (window-length - 1) words from starting text
                ;;       and append that to the added-text
-               (str (last (cs/split sentence #"\s")) " " added-text))))))
+               (concat-with-space (last (cs/split sentence #"\s")) added-text))))))
 
 ;;ADD - Let this generate n sentences
 (defn markov-sentence
   [sentence-starters sentence-bodies]
   (let [starting-text (rand-nth (keys sentence-starters))
         added-text (rand-nth (get sentence-starters starting-text))]
-    (markov-sentence-builder (str starting-text " " added-text)
+    (markov-sentence-builder (concat-with-space starting-text added-text)
                              ;;HACK - Needs to be expanded to take (window-length - 1) words from starting text
                              ;;       and append that to the added-text
-                             (str (last (cs/split starting-text #"\s")) " " added-text)
+                             (concat-with-space (last (cs/split starting-text #"\s")) added-text)
                              sentence-bodies)))
 
 (defn -main
