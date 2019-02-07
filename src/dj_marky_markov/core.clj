@@ -1,5 +1,5 @@
 (ns dj-marky-markov.core
-  (require [clojure.string :as cs])
+  (:require [clojure.string :as cs])
   (:gen-class))
 
 (def first-capital-letter-regex
