@@ -44,14 +44,10 @@
 
 (deftest main-test
   (testing "Ensure all helper functions are wired correctly"
-    (let [result (dmm/-main "./test/dj_marky_markov/test.txt" "3")
-          extra-arg-result (dmm/-main "./test/dj_marky_markov/test.txt" "3" "extra")]
+    (let [window-size 3
+          data (dmm/load-data! "./test/dj_marky_markov/test.txt" window-size)
+          result (dmm/write-sentences data window-size (inc (rand-int 100)))]
       (is (coll? result))
       (is (not (empty? result)))
       (is (every? string? result))
-      (is (coll? extra-arg-result))
-      (is (not (empty? extra-arg-result)))
-      (is (every? string? extra-arg-result))
-      (is (thrown? Exception (dmm/-main "./test/dj_jazzy_jazzof/fake.txt")))
-      (is (thrown? Exception (dmm/-main "./test/dj_jazzy_jazzof/fake.txt" "3")))
-      (is (thrown? Exception (dmm/-main "./test/dj_marky_markov/test.txt" "Three"))))))
+      (is (thrown? Exception (dmm/load-data! "./test/dj_jazzy_jazzof/fake.txt" window-size))))))

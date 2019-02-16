@@ -1,12 +1,42 @@
-# dj-marky-markov - A simple Markov Chain for text generation in Clojure
+# dj-marky-markov - Markov Chain text generation in Clojure
+<a href="https://icons8.com/icon/65353/headphones"><img src="icons8-dmm.png"></a>
+
+> Yo DJ, play that song for me.
+> Make it how I like that's how its got to be 'cos see-
+> I need a song with the funk intact.
+>  - Mark "Marky Mark" Wahlberg
 
 ## Installation
 
+Clone this repository to your local machine.
+
 ## Usage
 
-## Documentation Site
+To see how the application works, try executing it:
+```bash
+~/dj-marky-markov (master)
+$ lein run ./test/dj_marky_markov/test.txt 3
+```
+
+Shortly after, you should see results like the following printed back to you in stdout:
+```
+And that's when it becomes fun - you just let it play back-and-forth.
+Let all these little delicate things.
+What the devil.
+We'll put a touch more of the brush and let it go.
+We'll put a touch more of the land.
+Look at them little rascals.
+That's your challenge for the day.
+Just use the old one inch brush.
+Christmas tree things we used to make it that way.
+I may have to see things when you're doing doesn't make you happy - you're doing these little things in your heart.
+```
+
+If your results sound eerily familiar to [everyone's favorite painter,](https://en.wikipedia.org/wiki/Bob_Ross) then everything is set up correctly!
 
 ## Automated Build And Repository Information
+
+Code Coverage reports via [Cloverage.](https://nnichols.github.io/dj-marky-markov/coverage/index.html)
 
 ## Licensing
 

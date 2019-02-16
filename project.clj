@@ -1,4 +1,4 @@
-(defproject dj-marky-markov "0.0.0"
+(defproject dj-marky-markov "0.0.1"
   :description "Markov Chains for Text Generation"
   :url "https://github.com/nnichols/dj-marky-markov"
   :license {:name "Eclipse Public License"
