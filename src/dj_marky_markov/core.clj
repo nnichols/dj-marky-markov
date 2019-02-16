@@ -82,11 +82,11 @@
   (map single-window-to-tuple (string-to-sliding-window (slurp path) window-length)))
 
 (defn write-sentences
-  "Generate `count` sentences from the `tuples` where each transition window is `window-length`"
-  [tuples window-length count]
+  "Generate `copies` sentences from the `tuples` where each transition window is `window-length`"
+  [tuples window-length copies]
   (let [sentence-starters (build-markov-dictionary (get (group-by starts-sentence? tuples) true))
         sentence-bodies (build-markov-dictionary tuples)]
-    (markov-sentences sentence-starters sentence-bodies window-length count)))
+    (markov-sentences sentence-starters sentence-bodies window-length copies)))
 
 (defn -main
   "Try me out!"
