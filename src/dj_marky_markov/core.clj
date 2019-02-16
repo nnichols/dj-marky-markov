@@ -85,5 +85,4 @@
         split-text-tuples (group-by starts-sentence? text-tuples)
         sentence-starters (build-markov-dictionary (get split-text-tuples true))
         sentence-bodies (build-markov-dictionary text-tuples)]
-    (doseq [line (markov-sentences sentence-starters sentence-bodies window-length 10)]
-      (println line))))
+    (markov-sentences sentence-starters sentence-bodies window-length 10)))

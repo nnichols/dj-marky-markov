@@ -1,0 +1,272 @@
+<html>
+ <head>
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <link rel="stylesheet" href="../coverage.css"/>  <title> dj_marky_markov/core.clj </title>
+ </head>
+ <body>
+<span class="covered" title="1 out of 1 forms covered">
+                001&nbsp;&nbsp;(ns&nbsp;dj-marky-markov.core
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                002&nbsp;&nbsp;&nbsp;&nbsp;&quot;A&nbsp;simple&nbsp;Markov&nbsp;Chain&nbsp;for&nbsp;text&nbsp;generation&nbsp;in&nbsp;Clojure&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                003&nbsp;&nbsp;&nbsp;&nbsp;(:require&nbsp;[clojure.string&nbsp;:as&nbsp;cs])
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                004&nbsp;&nbsp;&nbsp;&nbsp;(:gen-class))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                005&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                006&nbsp;&nbsp;(def&nbsp;first-capital-letter-regex
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                007&nbsp;&nbsp;&nbsp;&nbsp;&quot;Regex&nbsp;pattern&nbsp;to&nbsp;find&nbsp;words&nbsp;that&nbsp;start&nbsp;sentences&quot;
+                </span><br/>
+<span class="covered" title="3 out of 3 forms covered">
+                008&nbsp;&nbsp;&nbsp;&nbsp;(re-pattern&nbsp;&quot;^[A-Z]&quot;))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                009&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                010&nbsp;&nbsp;(def&nbsp;punctuation-regex
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                011&nbsp;&nbsp;&nbsp;&nbsp;&quot;This&nbsp;is&nbsp;a&nbsp;loose&nbsp;regex&nbsp;detection&nbsp;for&nbsp;string&nbsp;terminators.&nbsp;Needs&nbsp;to&nbsp;be&nbsp;more&nbsp;robust&quot;
+                </span><br/>
+<span class="covered" title="3 out of 3 forms covered">
+                012&nbsp;&nbsp;&nbsp;&nbsp;(re-pattern&nbsp;&quot;[\\.\\?\\!]&quot;))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                013&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                014&nbsp;&nbsp;(defn&nbsp;concat-with-space
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                015&nbsp;&nbsp;&nbsp;&nbsp;&quot;Return&nbsp;`s1`&nbsp;concatenated&nbsp;with&nbsp;`s2`&nbsp;with&nbsp;a&nbsp;space&nbsp;between&nbsp;the&nbsp;two&nbsp;strings&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                016&nbsp;&nbsp;&nbsp;&nbsp;[s1&nbsp;s2]
+                </span><br/>
+<span class="covered" title="5 out of 5 forms covered">
+                017&nbsp;&nbsp;&nbsp;&nbsp;(str&nbsp;s1&nbsp;&quot;&nbsp;&quot;&nbsp;s2))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                018&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                019&nbsp;&nbsp;(defn&nbsp;search-text
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                020&nbsp;&nbsp;&nbsp;&nbsp;&quot;Take&nbsp;`window-length`&nbsp;words&nbsp;from&nbsp;the&nbsp;end&nbsp;of&nbsp;`sentence`
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                021&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;to&nbsp;use&nbsp;as&nbsp;the&nbsp;look-up&nbsp;for&nbsp;the&nbsp;next&nbsp;markov&nbsp;transition&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                022&nbsp;&nbsp;&nbsp;&nbsp;[stem&nbsp;window-length]
+                </span><br/>
+<span class="covered" title="8 out of 8 forms covered">
+                023&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[trailing-part&nbsp;(take-last&nbsp;window-length&nbsp;(cs&#x2F;split&nbsp;stem&nbsp;#&quot;\s&quot;))]
+                </span><br/>
+<span class="covered" title="6 out of 6 forms covered">
+                024&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cs&#x2F;trim&nbsp;(reduce&nbsp;concat-with-space&nbsp;trailing-part))))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                025&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                026&nbsp;&nbsp;(defn&nbsp;string-to-sliding-window
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                027&nbsp;&nbsp;&nbsp;&nbsp;&quot;Convert&nbsp;`string`&nbsp;into&nbsp;a&nbsp;series&nbsp;of&nbsp;sliding&nbsp;windows&nbsp;that&nbsp;will&nbsp;be&nbsp;sliced&nbsp;into
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                028&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a&nbsp;window&nbsp;and&nbsp;a&nbsp;transition&nbsp;word,&nbsp;hence&nbsp;incrementing&nbsp;the&nbsp;partition&nbsp;window.&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                029&nbsp;&nbsp;&nbsp;&nbsp;[string&nbsp;window-length]
+                </span><br/>
+<span class="covered" title="10 out of 10 forms covered">
+                030&nbsp;&nbsp;&nbsp;&nbsp;(partition&nbsp;(inc&nbsp;window-length)&nbsp;1&nbsp;(cs&#x2F;split&nbsp;string&nbsp;#&quot;\s+&quot;)))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                031&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                032&nbsp;&nbsp;(defn&nbsp;single-window-to-tuple
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                033&nbsp;&nbsp;&nbsp;&nbsp;&quot;Split&nbsp;`window`&nbsp;into&nbsp;a&nbsp;look-up&nbsp;and&nbsp;a&nbsp;transition&nbsp;tuple&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                034&nbsp;&nbsp;&nbsp;&nbsp;[window]
+                </span><br/>
+<span class="covered" title="13 out of 13 forms covered">
+                035&nbsp;&nbsp;&nbsp;&nbsp;(cons&nbsp;(reduce&nbsp;concat-with-space&nbsp;(butlast&nbsp;window))&nbsp;(list&nbsp;(last&nbsp;window))))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                036&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                037&nbsp;&nbsp;(defn&nbsp;add-entry
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                038&nbsp;&nbsp;&nbsp;&nbsp;&quot;Update&nbsp;`dictionary`&nbsp;with&nbsp;an&nbsp;`entry`&nbsp;tuple.
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                039&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If&nbsp;the&nbsp;look-up&nbsp;already&nbsp;exists,&nbsp;cons&nbsp;the&nbsp;current&nbsp;transition&nbsp;to&nbsp;the&nbsp;list&nbsp;of&nbsp;transitions&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                040&nbsp;&nbsp;&nbsp;&nbsp;[dictionary&nbsp;entry]
+                </span><br/>
+<span class="covered" title="13 out of 13 forms covered">
+                041&nbsp;&nbsp;&nbsp;&nbsp;(update&nbsp;dictionary&nbsp;(first&nbsp;entry)&nbsp;#(cons&nbsp;(second&nbsp;entry)&nbsp;%)))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                042&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                043&nbsp;&nbsp;(defn&nbsp;build-markov-dictionary
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                044&nbsp;&nbsp;&nbsp;&nbsp;&quot;Collapse&nbsp;`tuple-set`&nbsp;into&nbsp;a&nbsp;look-up&nbsp;dictionary&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                045&nbsp;&nbsp;&nbsp;&nbsp;[tuple-set]
+                </span><br/>
+<span class="covered" title="5 out of 5 forms covered">
+                046&nbsp;&nbsp;&nbsp;&nbsp;(reduce&nbsp;add-entry&nbsp;{}&nbsp;tuple-set))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                047&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                048&nbsp;&nbsp;(defn&nbsp;starts-sentence?
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                049&nbsp;&nbsp;&nbsp;&nbsp;&quot;Boolean&nbsp;predicate&nbsp;that&nbsp;returns&nbsp;true&nbsp;iff&nbsp;the&nbsp;first&nbsp;word&nbsp;of&nbsp;`text-window`
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                050&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;starts&nbsp;with&nbsp;a&nbsp;capital&nbsp;letter&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                051&nbsp;&nbsp;&nbsp;&nbsp;[text-window]
+                </span><br/>
+<span class="covered" title="8 out of 8 forms covered">
+                052&nbsp;&nbsp;&nbsp;&nbsp;(boolean&nbsp;(re-find&nbsp;first-capital-letter-regex&nbsp;(first&nbsp;text-window))))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                053&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                054&nbsp;&nbsp;(defn&nbsp;sentence-ended?
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                055&nbsp;&nbsp;&nbsp;&nbsp;&quot;Boolean&nbsp;predicate&nbsp;that&nbsp;returns&nbsp;true&nbsp;iff&nbsp;`text`&nbsp;contains&nbsp;terminal&nbsp;punctuation&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                056&nbsp;&nbsp;&nbsp;&nbsp;[text]
+                </span><br/>
+<span class="covered" title="6 out of 6 forms covered">
+                057&nbsp;&nbsp;&nbsp;&nbsp;(boolean&nbsp;(re-find&nbsp;punctuation-regex&nbsp;text)))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                058&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                059&nbsp;&nbsp;(defn&nbsp;markov-sentence
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                060&nbsp;&nbsp;&nbsp;&nbsp;&quot;Build&nbsp;a&nbsp;sentence&nbsp;starting&nbsp;with&nbsp;a&nbsp;random&nbsp;element&nbsp;in&nbsp;`sentence-starters`,&nbsp;and
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                061&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;recursively&nbsp;navigate&nbsp;the&nbsp;markov&nbsp;model&nbsp;in&nbsp;`sentence-bodies`,&nbsp;whose&nbsp;transition&nbsp;windows
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                062&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;are&nbsp;sized&nbsp;by&nbsp;`window-length`&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                063&nbsp;&nbsp;&nbsp;&nbsp;[sentence-starters&nbsp;sentence-bodies&nbsp;window-length]
+                </span><br/>
+<span class="covered" title="6 out of 6 forms covered">
+                064&nbsp;&nbsp;&nbsp;&nbsp;(loop&nbsp;[sentence&nbsp;(rand-nth&nbsp;(keys&nbsp;sentence-starters))]
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                065&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(sentence-ended?&nbsp;sentence)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                066&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;We&nbsp;want&nbsp;to&nbsp;trim&nbsp;off&nbsp;anything&nbsp;that&nbsp;trails&nbsp;after&nbsp;punctuation
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                067&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;e.g.&nbsp;&quot;I&nbsp;went&nbsp;to&nbsp;the&nbsp;store.&nbsp;Hello&quot;&nbsp;-&gt;&nbsp;&quot;I&nbsp;went&nbsp;to&nbsp;the&nbsp;store.&quot;
+                </span><br/>
+<span class="covered" title="8 out of 8 forms covered">
+                068&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(str&nbsp;(first&nbsp;(cs&#x2F;split&nbsp;sentence&nbsp;punctuation-regex))
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                069&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(re-find&nbsp;punctuation-regex&nbsp;sentence))
+                </span><br/>
+<span class="covered" title="5 out of 5 forms covered">
+                070&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[look-up&nbsp;(search-text&nbsp;sentence&nbsp;window-length)
+                </span><br/>
+<span class="covered" title="8 out of 8 forms covered">
+                071&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;added-text&nbsp;(rand-nth&nbsp;(get&nbsp;sentence-bodies&nbsp;look-up&nbsp;[&quot;.&quot;]))]
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                072&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(recur&nbsp;(concat-with-space&nbsp;sentence&nbsp;added-text))))))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                073&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                074&nbsp;&nbsp;(defn&nbsp;markov-sentences
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                075&nbsp;&nbsp;&nbsp;&nbsp;&quot;Generate&nbsp;`sentences`&nbsp;repeatedly&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                076&nbsp;&nbsp;&nbsp;&nbsp;[sentence-starters&nbsp;sentence-bodies&nbsp;window-length&nbsp;sentences]
+                </span><br/>
+<span class="covered" title="11 out of 11 forms covered">
+                077&nbsp;&nbsp;&nbsp;&nbsp;(take&nbsp;sentences&nbsp;(repeatedly&nbsp;#(markov-sentence&nbsp;sentence-starters&nbsp;sentence-bodies&nbsp;window-length))))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                078&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                079&nbsp;&nbsp;(defn&nbsp;-main
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                080&nbsp;&nbsp;&nbsp;&nbsp;&quot;Try&nbsp;me&nbsp;out!&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                081&nbsp;&nbsp;&nbsp;&nbsp;[&amp;&nbsp;args]
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                082&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[path&nbsp;(first&nbsp;args)
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                083&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;window-length&nbsp;(Integer&#x2F;parseInt&nbsp;(second&nbsp;args))
+                </span><br/>
+<span class="covered" title="9 out of 9 forms covered">
+                084&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text-tuples&nbsp;(map&nbsp;single-window-to-tuple&nbsp;(string-to-sliding-window&nbsp;(slurp&nbsp;path)&nbsp;window-length))
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                085&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;split-text-tuples&nbsp;(group-by&nbsp;starts-sentence?&nbsp;text-tuples)
+                </span><br/>
+<span class="covered" title="6 out of 6 forms covered">
+                086&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sentence-starters&nbsp;(build-markov-dictionary&nbsp;(get&nbsp;split-text-tuples&nbsp;true))
+                </span><br/>
+<span class="covered" title="3 out of 3 forms covered">
+                087&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sentence-bodies&nbsp;(build-markov-dictionary&nbsp;text-tuples)]
+                </span><br/>
+<span class="covered" title="6 out of 6 forms covered">
+                088&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(markov-sentences&nbsp;sentence-starters&nbsp;sentence-bodies&nbsp;window-length&nbsp;10)))
+                </span><br/>
+ </body>
+</html>

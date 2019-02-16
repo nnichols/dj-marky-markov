@@ -41,3 +41,17 @@
     (is (dmm/sentence-ended? "Stop! cried the groaning old man at last, Stop! I did not drag my father beyond this tree"))
     (is (not (dmm/sentence-ended? "The ting go skraaa")))
     (is (not (dmm/sentence-ended? "All this happened, more or less-")))))
+
+(deftest main-test
+  (testing "Ensure all helper functions are wired correctly"
+    (let [result (dmm/-main "./test/dj_marky_markov/test.txt" "3")
+          extra-arg-result (dmm/-main "./test/dj_marky_markov/test.txt" "3" "extra")]
+      (is (coll? result))
+      (is (not (empty? result)))
+      (is (every? string? result))
+      (is (coll? extra-arg-result))
+      (is (not (empty? extra-arg-result)))
+      (is (every? string? extra-arg-result))
+      (is (thrown? Exception (dmm/-main "./test/dj_jazzy_jazzof/fake.txt")))
+      (is (thrown? Exception (dmm/-main "./test/dj_jazzy_jazzof/fake.txt" "3")))
+      (is (thrown? Exception (dmm/-main "./test/dj_marky_markov/test.txt" "Three"))))))
