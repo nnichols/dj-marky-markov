@@ -8,4 +8,5 @@
   :eastwood {:add-linters [:unused-fn-args :unused-private-vars]}
   :main ^:skip-aot dj-marky-markov.core
   :target-path "target/%s"
+  :aot :all
   :profiles {:uberjar {:aot :all}})
