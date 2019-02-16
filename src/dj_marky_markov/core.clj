@@ -13,14 +13,18 @@
   [s1 s2]
   (str s1 " " s2))
 
+(defn search-text
+  [stem window-length]
+  (let [trailing-part (take-last window-length (cs/split stem #"\s"))]
+    (cs/trim (reduce concat-with-space trailing-part))))
+
 (defn string-to-sliding-window
   [string window-length]
-  (partition window-length 1 (cs/split string #"\s+")))
+  (partition (inc window-length) 1 (cs/split string #"\s+")))
 
-;; A binary str that adds a center spce is common, break it our
 (defn single-window-to-tuple
   [window]
-  (cons (reduce #(concat-with-space %1 %2) (butlast window)) (list (last window))))
+  (cons (reduce concat-with-space (butlast window)) (list (last window))))
 
 (defn add-entry
   [dictionary entry]
@@ -38,31 +42,21 @@
   [text]
   (boolean (re-find punctuation-regex text)))
 
-(defn markov-sentence-builder
-  [root search-phrase dictionary]
-  (loop [sentence root
-         look-up  search-phrase]
+(defn markov-sentence
+  [sentence-starters sentence-bodies window-length]
+  (loop [sentence (rand-nth (keys sentence-starters))]
     (if (sentence-ended? sentence)
       ;; We want to trim off anything that trails after punctuation
       ;; e.g. "I went to the store. Hello" -> "I went to the store."
       (str (first (cs/split sentence punctuation-regex))
            (re-find punctuation-regex sentence))
-      (let [added-text (rand-nth (get dictionary look-up ["."]))]
-        (recur (concat-with-space sentence added-text)
-               ;;HACK - Needs to be expanded to take (window-length - 1) words from starting text
-               ;;       and append that to the added-text
-               (concat-with-space (last (cs/split sentence #"\s")) added-text))))))
+      (let [look-up (search-text sentence window-length)
+            added-text (rand-nth (get sentence-bodies look-up ["."]))]
+        (recur (concat-with-space sentence added-text))))))
 
-;;ADD - Let this generate n sentences
-(defn markov-sentence
-  [sentence-starters sentence-bodies]
-  (let [starting-text (rand-nth (keys sentence-starters))
-        added-text (rand-nth (get sentence-starters starting-text))]
-    (markov-sentence-builder (concat-with-space starting-text added-text)
-                             ;;HACK - Needs to be expanded to take (window-length - 1) words from starting text
-                             ;;       and append that to the added-text
-                             (concat-with-space (last (cs/split starting-text #"\s")) added-text)
-                             sentence-bodies)))
+(defn markov-sentences
+  [sentence-starters sentence-bodies window-length sentences]
+  (take sentences (repeatedly #(markov-sentence sentence-starters sentence-bodies window-length))))
 
 (defn -main
   "I don't do a whole lot ... yet."
@@ -72,9 +66,6 @@
         text-tuples (map single-window-to-tuple (string-to-sliding-window (slurp path) window-length))
         split-text-tuples (group-by starts-sentence? text-tuples)
         sentence-starters (build-markov-dictionary (get split-text-tuples true))
-        sentence-bodies (build-markov-dictionary text-tuples)
-        _ (println (markov-sentence sentence-starters sentence-bodies))
-        _ (println (markov-sentence sentence-starters sentence-bodies))
-        _ (println (markov-sentence sentence-starters sentence-bodies))
-        _ (println (markov-sentence sentence-starters sentence-bodies))
-        _ (println (markov-sentence sentence-starters sentence-bodies))]))
+        sentence-bodies (build-markov-dictionary text-tuples)]
+    (doseq [line (markov-sentences sentence-starters sentence-bodies window-length 10)]
+      (println line))))
