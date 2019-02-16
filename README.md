@@ -1,5 +1,8 @@
 # dj-marky-markov - Markov Chain text generation in Clojure
 <a href="https://icons8.com/icon/65353/headphones"><img src="icons8-dmm.png"></a>
+[![Clojars Project](https://img.shields.io/clojars/v/dj-marky-markov.svg)](https://clojars.org/dj-marky-markov)
+[![Dependencies Status](https://versions.deps.co/nnichols/dj-marky-markov/status.svg)](https://versions.deps.co/nnichols/dj-marky-markov)
+[![cljdoc badge](https://cljdoc.org/badge/dj-marky-markov/dj-marky-markov)](https://cljdoc.org/d/dj-marky-markov/dj-marky-markov/CURRENT)
 
 > Yo DJ, play that song for me.
 > Make it how I like that's how its got to be 'cos see-
