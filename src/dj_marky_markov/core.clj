@@ -93,5 +93,6 @@
   [& args]
   (let [window-length (Integer/parseInt (second args))
         tuples (load-data! (first args) window-length)
-        generated-text (write-sentences tuples window-length 10)]
+        results-to-generate (Integer/parseInt (nth args 2))
+        generated-text (write-sentences tuples window-length results-to-generate)]
     (doseq [sentence generated-text] (println sentence))))

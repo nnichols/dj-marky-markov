@@ -18,7 +18,7 @@ Clone this repository to your local machine.
 To see how the application works, try executing it:
 ```bash
 ~/dj-marky-markov (master)
-$ lein run ./test/dj_marky_markov/test.txt 3
+$ lein run ./test/dj_marky_markov/test.txt 3 10
 ```
 
 Shortly after, you should see results like the following printed back to you in stdout:
