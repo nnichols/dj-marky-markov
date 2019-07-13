@@ -1,4 +1,4 @@
-## v0.0.2 / 2019 July 13
+## v0.0.3 / 2019 July 13
 
 > Accept lines to generate as a command line arg
 
