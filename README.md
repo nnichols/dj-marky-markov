@@ -3,6 +3,7 @@
 [![Clojars Project](https://img.shields.io/clojars/v/dj-marky-markov.svg)](https://clojars.org/dj-marky-markov)
 [![Dependencies Status](https://versions.deps.co/nnichols/dj-marky-markov/status.svg)](https://versions.deps.co/nnichols/dj-marky-markov)
 [![cljdoc badge](https://cljdoc.org/badge/dj-marky-markov/dj-marky-markov)](https://cljdoc.org/d/dj-marky-markov/dj-marky-markov/CURRENT)
+![Github Runner](https://github.com/nnichols/dj-marky-markov/workflows/Clojure%20CI/badge.svg)
 
 > Yo DJ, play that song for me.
 > Make it how I like that's how its got to be 'cos see-
