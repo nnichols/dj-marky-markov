@@ -15,5 +15,3 @@ jobs:
       run: lein test
     - name: Secret Scan
       uses: max/secret-scan@1.0.0
-    - name: clj-kondo checks
-      uses: DeLaGuardo/clojure-lint-action@1.0
