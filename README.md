@@ -1,4 +1,5 @@
 # dj-marky-markov - Markov Chain text generation in Clojure
+
 <a href="https://icons8.com/icon/65353/headphones"><img src="icons8-dmm.png"></a>
 [![Clojars Project](https://img.shields.io/clojars/v/dj-marky-markov.svg)](https://clojars.org/dj-marky-markov)
 [![Dependencies Status](https://versions.deps.co/nnichols/dj-marky-markov/status.svg)](https://versions.deps.co/nnichols/dj-marky-markov)
@@ -8,7 +9,8 @@
 > Yo DJ, play that song for me.
 > Make it how I like that's how its got to be 'cos see-
 > I need a song with the funk intact.
->  - Mark "Marky Mark" Wahlberg
+>
+> - Mark "Marky Mark" Wahlberg
 
 ## Installation
 
@@ -17,13 +19,15 @@ Clone this repository to your local machine.
 ## Usage
 
 To see how the application works, try executing it:
+
 ```bash
 ~/dj-marky-markov (master)
 $ lein run ./test/dj_marky_markov/test.txt 3 10
 ```
 
 Shortly after, you should see results like the following printed back to you in stdout:
-```
+
+```txt
 And that's when it becomes fun - you just let it play back-and-forth.
 Let all these little delicate things.
 What the devil.
