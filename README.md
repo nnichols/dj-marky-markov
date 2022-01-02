@@ -48,6 +48,6 @@ Code Coverage reports via [Cloverage.](https://nnichols.github.io/dj-marky-marko
 
 ## Licensing
 
-Copyright © 2019 - 2021 [Nick Nichols](https://nnichols.github.io/)
+Copyright © 2019 - 2022 [Nick Nichols](https://nnichols.github.io/)
 
 Distributed under the [Eclipse Public License Version 1.0](https://www.eclipse.org/legal/epl-v10.html)
