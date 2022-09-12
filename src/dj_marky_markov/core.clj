@@ -1,6 +1,7 @@
 (ns dj-marky-markov.core
   "A simple Markov Chain for text generation in Clojure"
-  (:require [clojure.string :as cs])
+  (:require [clojure.string :as cs]
+            [clojure.set :as cset])
   (:gen-class))
 
 (def first-capital-letter-regex
