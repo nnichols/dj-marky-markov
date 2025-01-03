@@ -12,6 +12,11 @@
 >
 > - Mark "Marky Mark" Wahlberg
 
+## Archival
+
+This project was a pet project I took on while learning clojure, I sincerely hope you weren't relying on it in production!
+To free myself of automated alerts/dependency updates/etc, I'm archiving the repository as of 2025-01-03.
+
 ## Installation
 
 Clone this repository to your local machine.
@@ -48,6 +53,6 @@ Code Coverage reports via [Cloverage.](https://nnichols.github.io/dj-marky-marko
 
 ## Licensing
 
-Copyright © 2019 - 2022 [Nick Nichols](https://nnichols.github.io/)
+Copyright © 2019 - 2025 [Nick Nichols](https://nnichols.github.io/)
 
 Distributed under the [Eclipse Public License Version 1.0](https://www.eclipse.org/legal/epl-v10.html)
